@@ -5,3 +5,5 @@ questions finished:
 3.1 Three in One
 4.3 List of Depths
 8.1 Triple Step 
+8.7 Permutations without Dups
+
