@@ -1,4 +1,5 @@
 # yass i beat chan :D. handicapped him at 4am.
+# 20 mins
 
 def permNoDups(str):
 	if len(str) == 1:
