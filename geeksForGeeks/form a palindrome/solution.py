@@ -1,8 +1,8 @@
-import math
+# http://www.practice.geeksforgeeks.org/problem-page.php?pid=557
 
 # Checks if a word is a palindrome
 def is_palindrome(word):
-	for i in range(math.floor(len(word)/2)):
+	for i in range(int(len(word)/2)):
 		if word[i] != word[len(word) - 1 - i]:
 			return False
 	return True
@@ -36,7 +36,7 @@ def find_largest_palindrome(word):
 # Return the index of the middle character of the word, which will be used as a starting palindrome
 # if len(word) is even, return the character to the right of the middle index
 def find_middle_character_index(word):
-	return math.floor(len(word)/2)
+	return int(len(word)/2)
 
 # Return the minimum number of inserts to make word into a palindrome.
 def find_min_inserts_palindrome(word):
@@ -49,6 +49,8 @@ def find_min_inserts_palindrome(word):
 	new_word = word
 	insert_count = 0
 	stop = 0
+	in_right_partition = False
+	in_left_partition = False
 
 	# find largest palindrome
 	# tuple = (index, palindrome length, palindrome word)
@@ -57,45 +59,69 @@ def find_min_inserts_palindrome(word):
 	# loop until the whole world is a palindrome
 	while (largest[2] != new_word):
 		if stop >= 50:
-			return "INFINITE LOOP, YOUR CODE IS MESSEDUP STahpP"
+			print("INFINITE LOOP, YOUR CODE IS MESSEDUP STahpP")
+			return -1
 		stop += 1
 
 		# Grab left character of palindrome
 		if largest[0] >= 1:
-			left_char = new_word[largest[0] - 1]
-			right_part_index = largest[0]+largest[1]
 
 			# if left char does not belong to the right side of palindrome, 
 			# then insert char to the right of the palindrome
 			# else, re-find largest palindrome because it may have updated from previous iteration
+			left_char = new_word[largest[0] - 1]
+			right_part_index = largest[0]+largest[1]
 			right_partition = new_word[right_part_index:]
 
-			if left_char not in right_partition:
-				# insert to the right
+
+			# Extreme edge case left char and right char are in the opposing paritions.
+			# So just choose left char to be inserted.
+			if (left_char not in right_partition) or (in_right_partition and in_left_partition):
+				# insert left char to the right side of palindrome, update largest palindrome
 				new_word = new_word[:right_part_index] + left_char + new_word[right_part_index:]
-				# update largest palindrome
 				largest = (largest[0] - 1, largest[1] + 2, left_char + largest[2] + left_char)
 				insert_count += 1
 			else:
 				# re-find largest palindrome
+				in_right_partition = True
 				largest = find_largest_palindrome(new_word)
-				print("---------------1", new_word, largest)
 
 		# Grab right character of palindrome
 		right_part_index = largest[0]+largest[1]
 		if right_part_index < len(new_word):
 
-			# insert right character to the left side of palindrome
+
+			# if right char does not belong to the left side of palindrome, 
+			# then insert char to the left of the palindrome
+			# else, re-find largest palindrome because it may have updated from previous iteration
 			right_char = new_word[right_part_index]
-			new_word = new_word[:largest[0]] + right_char + new_word[largest[0]:]
+			left_partition = new_word[:largest[0]]
 
-			# update largest palindrome
-			largest = (largest[0], largest[1] + 2, right_char + largest[2] + right_char)
-			insert_count += 1
+			if right_char not in left_partition:
+				# insert right char to the left side of palindrome, update largest palindrome
+				new_word = new_word[:largest[0]] + right_char + new_word[largest[0]:]
+				largest = (largest[0], largest[1] + 2, right_char + largest[2] + right_char)
+				insert_count += 1
+			else:
+				# re-find largest palindrome
+				in_left_partition = True
+				largest = find_largest_palindrome(new_word)
 
-	print("Word:", word, "\tNew:", new_word, "\tCount:", insert_count)
+	# print("Word:", word, "\tNew:", new_word, "\tCount:", insert_count)
 	return insert_count
 
+def geeksForGeeksWrapper(solution_function):
+	# Input number of test cases
+	t = int(raw_input())
+ 
+	# One by one run for all input test cases
+	for i in range(0,t):
+
+		# grab raw test case
+		test_case = raw_input()
+
+		# run solution function on test case
+		print(solution_function(test_case))
 
 
 if __name__ == "__main__":
@@ -119,13 +145,15 @@ if __name__ == "__main__":
 	assert(find_largest_palindrome("ab") == (1, 1, "b"))
 	assert(find_largest_palindrome("abc") == (1, 1, "b"))
 
-	print(find_min_inserts_palindrome("a"))
-	find_min_inserts_palindrome("ab")
-	find_min_inserts_palindrome("abc")
-	find_min_inserts_palindrome("abcd")
-	find_min_inserts_palindrome("aba")
-	find_min_inserts_palindrome("geeks")
-	find_min_inserts_palindrome("sgeeks") # == 2
-	find_min_inserts_palindrome("abcddae") # == 3 WRONG ATM
-	find_min_inserts_palindrome("abcab") # == 2
+	# test real function
+	assert(find_min_inserts_palindrome("a") == 0)
+	assert(find_min_inserts_palindrome("ab") == 1)
+	assert(find_min_inserts_palindrome("abc") == 2)
+	assert(find_min_inserts_palindrome("abcd") == 3)
+	assert(find_min_inserts_palindrome("aba") == 0)
+	assert(find_min_inserts_palindrome("geeks") == 3)
+	assert(find_min_inserts_palindrome("sgeeks") == 2)
+	assert(find_min_inserts_palindrome("abcddae") == 3)
+	assert(find_min_inserts_palindrome("abcab") == 2)
 
+geeksForGeeksWrapper(find_min_inserts_palindrome)
