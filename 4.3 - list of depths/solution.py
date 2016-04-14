@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../data_structures")
+
 from BTree import *
 from LL import *
 
@@ -33,7 +36,7 @@ def dfs_search_helper(root, depth, depthLL):
 
 # Create sample Binary Tree
 values = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-bt = BTreeNode.createCompleteTree(values)
+bt = BTree.createCompleteTree(values)
 
 # print solution
 bt_soln = solution(bt)
@@ -43,16 +46,16 @@ for llist in bt_soln:
 
 
 # Create sample Binary Tree 2
-n1 = BTreeNode(1)
-n2 = BTreeNode(2)
-n3 = BTreeNode(3)
-n4 = BTreeNode(4)
-n5 = BTreeNode(5)
-n6 = BTreeNode(6)
-n7 = BTreeNode(7)
-n8 = BTreeNode(8)
-n9 = BTreeNode(9)
-n10 = BTreeNode(10)
+n1 = BTree(1)
+n2 = BTree(2)
+n3 = BTree(3)
+n4 = BTree(4)
+n5 = BTree(5)
+n6 = BTree(6)
+n7 = BTree(7)
+n8 = BTree(8)
+n9 = BTree(9)
+n10 = BTree(10)
 
 n1.setChildren(n2, n3)
 n2.setChildren(n4, n5)
