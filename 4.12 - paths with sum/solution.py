@@ -1,6 +1,5 @@
 import sys
 sys.path.append("../data_structures")
-
 from BTree import *
 
 
@@ -50,6 +49,23 @@ if __name__ == '__main__':
 	n3.setChildren(n6, n7)
 
 	result = find_sum_path(n1, [], 0, 15)
-	print(result)
+	print("Num of paths:", result)
 
-	BTree.printBTree(n1)
+	BTree.printBTree2(n1)
+
+
+	# Create sample Binary Tree 2
+	n1 = BTree(2)
+	n2 = BTree(1)
+	n3 = BTree(-1)
+	n4 = BTree(-1)
+	n5 = BTree(5)
+
+	n1.setChildren(n2, n5)
+	n2.setChildren(n3, None)
+	n3.setChildren(n4, None)
+
+	result = find_sum_path(n1, [], 0, 1)
+	print("Num of paths:", result)
+
+	BTree.printBTree2(n1)
