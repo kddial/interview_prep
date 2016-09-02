@@ -1,0 +1,83 @@
+.quadrant {
+    width: 150px;
+    height: 100px;
+    margin-right: -2px;
+    margin-left: -2px;
+    color: #ffffff;
+    text-align: center;
+    display: block;
+    vertical-align: middle;
+}
+
+.solutions {
+    background-color: #3498db;
+}
+
+.shortest {
+    background-color: #FF6545;
+}
+
+.first {
+    background-color: #44BFA3;
+}
+
+.authored {
+    background-color: #33485F;
+}
+
+.quadrants-upper {
+    margin-top: 20px;
+}
+
+.quadrant-number {
+    display: block;
+}
+
+/* fonts */
+.challenges {
+    text-transform: uppercase;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+.card-title {
+    font-weight: 200;
+    color: #6B6B6B;
+}
+
+.quadrant-title {
+    font-size: 0.8em;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+}
+
+.quadrant-number {
+    font-weight: 200;
+    font-size: 1.2em;
+    display: block;
+    letter-spacing: 0.1em;
+}
+
+
+/* mobile devices */
+@media (max-width: 360px) {
+    .quadrant {
+        display: flex;
+        align-items: center; /* Vertical align: */
+        justify-content: center; /* Horizontal align: */
+        flex-direction: column; /* multi line */
+        height: 100px;
+        margin-left: 25px;
+        width: 278px;
+    }
+    .quadrant-number {
+        width: 100px;
+    }
+}
+
+/* desktop devices */
+@media (min-width: 361px) {
+    .quadrant {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
