@@ -3,6 +3,11 @@
 # write code to find the sub matrix with the largest possible sum.
 
 
+
+# How to optimize?
+# Memoization of the sums of each sub matrix
+# Dynamically calculate sum by using their submatrixes' sum
+
 def getLargestSumMatrix(M):
 	N = len(M)
 	largestSum = 0
@@ -13,7 +18,7 @@ def getLargestSumMatrix(M):
 		for y in range(0, N):
 			for w in range(1, N+1-x):
 				for h in range(1, N+1-y):
-					subMatrix = getSubMatrix(x, y, w, h, M)
+					subMatrix = getSubMatrixZeros(x, y, w, h, M)
 					temp_sum = sumMatrix(subMatrix)
 
 					if temp_sum > largestSum:
@@ -35,60 +40,73 @@ def getSubMatrix(x, y, w, h, M):
 		subMatrix.append(row)
 	return subMatrix
 
+
+def getSubMatrixZeros(x, y, w, h, M):
+	N = len(M)
+	subMatrix = []
+	for i in range(0, N):
+		row = []
+		for j in range(0, N):
+			if (i >= x and i < x+w) and (j >= y and j < j+h):
+				row.append(M[i][j])
+			else:
+				row.append("_")
+		subMatrix.append(row)
+	return subMatrix
+
+
 def sumMatrix(M):
 	matrixSum = 0
 	for row in M:
 		for item in row:
-			matrixSum += item
+			if isinstance(item, int):
+				matrixSum += item
 	return matrixSum
-
-
-
 
 
 def printMatrix(M):
 	for row in M:
 		for item in row:
-			print('{0:4d}'.format(item), end="")
+			if isinstance(item, int):
+				print('{0:7d}'.format(item), end="")
+			else:
+				print('{0:7}'.format(""), end="")
 		print()
 	print()
 
+
 def testMatrix(M):
-	print("---------- Test Case ----------")
+	print("--------------- Test Case ---------------")
 	(largestSum, largestSubmatrix) = getLargestSumMatrix(M)
 	print("The full matrix is the following...")
 	printMatrix(M)
-	print("The submatrix with the largest sum is the following...")
+	print("Below is the submatrix with the largest sum of", largestSum)
 	printMatrix(largestSubmatrix)
-	print("The sum of the submatrix is", largestSum)
 	print()
-	
+	print()
 
 
+# Test cases
+M1 = [[1, 2], 
+	[3, 4]]
 
-
-
-
-
-M1 = [[1, 2, 3], 
-	[4, 5, 6], 
-	[7, 8, 9]]
-
-M2 = [[1, 2, 3], 
-	[4, 5, 6], 
-	[7, 8, -9]]
-
-M3 = [[1, 2, 3], 
-	[4, 5, -6], 
-	[7, 8, -9]]
-
-M4 = [[-11, 0, 3], 
+M2 = [[-11, 0, 3], 
 	[4, 5, 6], 
 	[7, -8, 9]]
+
+M3 = [[-1, 1, 1], 
+	[-1, 11, 1], 
+	[-1, 1, -3]]
+
+# what do i return if there are sub matrixes with tied largest sum?
+M4 = [[-1, 0, 0, 0, -1],
+	[0, 0, 0, 0, 0],
+	[0, 0, 22, 0, 0],
+	[0, 0, 0, 0, 0],
+	[-1, 0, 0, 0, -1]]
 
 if __name__ == '__main__':
 	testMatrix(M1)
 	testMatrix(M2)
 	testMatrix(M3)
 	testMatrix(M4)
-
